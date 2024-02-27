@@ -3,7 +3,7 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/disk/by-id/ata-AirDisk_512GB_SSD_NHA319R003870S30WX";
         content = {
           type = "gpt";
           partitions = {
@@ -41,21 +41,24 @@
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";
         };
-        mountpoint = "/";
         postCreateHook = "zfs snapshot zroot@blank";
         datasets = {
           root = {
             type = "zfs_fs";
             mountpoint = "/";
+            options.mountpoint = "legacy";
+            options."com.sun:auto-snapshot" = "true";
           };
           home = {
             type = "zfs_fs";
             mountpoint = "/home";
+            options.mountpoint = "legacy";
             options."com.sun:auto-snapshot" = "true";
           };
           persist = {
             type = "zfs_fs";
             mountpoint = "/persist";
+            options.mountpoint = "legacy";
           };
           reserved = {
             type = "zfs_fs";
@@ -69,4 +72,3 @@
     };
   };
 }
-
