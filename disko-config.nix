@@ -41,15 +41,16 @@
           compression = "zstd";
           "com.sun:auto-snapshot" = "false";
         };
-                  postCreateHook = "zfs snapshot zroot@blank";
+        postCreateHook = "zfs snapshot zroot@blank";
         datasets = {
           root = {
-          type = "zfs_fs";
+            type = "zfs_fs";
             mountpoint = "/";
             options."com.sun:auto-snapshot" = "true";
           };
-                                          type = "zfs_fs";
-          mountpoint = "/nix";
+          home = {
+            type = "zfs_fs";
+            mountpoint = "/home";
             options."com.sun:auto-snapshot" = "true";
           };
           persist = {
@@ -68,3 +69,4 @@
     };
   };
 }
+

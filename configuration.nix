@@ -8,16 +8,18 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
       ./disko-config.nix
     ];
-  networking.hostId = (builtins.substring 0 8 (builtins.readFile "/etc/machine-id"));
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  networking.hostId = "12341234"; 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages; 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
@@ -42,7 +44,7 @@
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-
+  
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "it";
@@ -53,8 +55,15 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
+  
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -62,9 +71,10 @@
   users.users.katia = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-      tree
+    packages = [
+      pkgs.firefox
+      pkgs.tree
+      pkgs.vscode
     ];
   };
 
@@ -75,6 +85,7 @@
     wget
     curl
   ];
+  nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -119,3 +130,5 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
+
+
