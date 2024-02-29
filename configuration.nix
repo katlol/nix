@@ -11,16 +11,14 @@
       "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
       ./disko-config.nix
     ];
-  networking.hostId = (builtins.substring 0 8 (builtins.readFile "/etc/machine-id")); 
+  networking.hostId = (builtins.substring 0 8 (builtins.readFile "/etc/machine-id"));
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages; 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
@@ -44,7 +42,7 @@
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  
+
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "it";
@@ -121,5 +119,3 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-
-
