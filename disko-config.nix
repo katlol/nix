@@ -46,19 +46,16 @@
           root = {
             type = "zfs_fs";
             mountpoint = "/";
-            options.mountpoint = "legacy";
             options."com.sun:auto-snapshot" = "true";
           };
           home = {
             type = "zfs_fs";
             mountpoint = "/home";
-            options.mountpoint = "legacy";
             options."com.sun:auto-snapshot" = "true";
           };
           persist = {
             type = "zfs_fs";
             mountpoint = "/persist";
-            options.mountpoint = "legacy";
           };
           reserved = {
             type = "zfs_fs";
@@ -72,3 +69,4 @@
     };
   };
 }
+
