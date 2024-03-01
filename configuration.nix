@@ -11,12 +11,12 @@
       ./disko-config.nix
     ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  networking.hostId = "12341234"; 
+  networking.hostId = "12341234";
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages; 
+  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -43,8 +43,8 @@
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  
+  services.xserver.desktopManager.plasma6.enable = true;
+
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "it";
@@ -63,7 +63,7 @@
   };
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
-  
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -130,5 +130,3 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-
-
